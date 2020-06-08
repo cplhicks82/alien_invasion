@@ -147,14 +147,7 @@ class AlienInvasion:
 			self.sb.check_high_score()
 
 		if not self.aliens:
-			# Destroy existing bullets and create new fleet.
-			self.bullets.empty()
-			self._create_fleet()
-			self.settings.increase_speed()
-
-			# Increase level.
-			self.stats.level += 1
-			self.sb.prep_level()
+			self.start_new_level()
 
 	def _update_aliens(self):
 		"""
@@ -242,6 +235,17 @@ class AlienInvasion:
 		else:
 			self.stats.game_active = False
 			pygame.mouse.set_visible(True)
+
+	def start_new_level(self):
+		"""Build a new fleet, increase difficulty, change level."""
+		# Destroy existing bullets and create new fleet.
+		self.bullets.empty()
+		self._create_fleet()
+		self.settings.increase_speed()
+
+		# Increase level.
+		self.stats.level += 1
+		self.sb.prep_level()
 
 	def _update_screen(self):
 		"""Update images on the screen, and flip to the new screen."""
