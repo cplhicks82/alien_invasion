@@ -3,6 +3,7 @@ from time import sleep
 import json
 
 import pygame
+from pygame import mixer
 
 from settings import Settings
 from game_stats import GameStats
@@ -34,7 +35,7 @@ class AlienInvasion:
 		self.ship = Ship(self)
 		self.bullets = pygame.sprite.Group()
 		self.aliens = pygame.sprite.Group()
-
+		
 		self._create_fleet()
 
 		# Make the play button.
@@ -121,6 +122,8 @@ class AlienInvasion:
 		if len(self.bullets) < self.settings.bullets_allowed:
 			new_bullet = Bullet(self)
 			self.bullets.add(new_bullet)
+			laser = mixer.Sound('sounds/phaser.wav')
+			laser.play()
 
 	def _update_bullets(self):
 		"""Update position of bullets and get rid of old bullets."""
@@ -145,6 +148,8 @@ class AlienInvasion:
 				self.stats.score += self.settings.alien_points * len(aliens)
 			self.sb.prep_score()
 			self.sb.check_high_score()
+			explosion = mixer.Sound('sounds/explosion.wav')
+			explosion.play()
 
 		if not self.aliens:
 			self.start_new_level()
